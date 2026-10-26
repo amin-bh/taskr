@@ -1,5 +1,10 @@
 export const PRIORITIES = ['low', 'medium', 'high'];
 
+// One more than the highest id in use, so ids stay unique after a task is removed.
+function nextId(tasks) {
+  return tasks.reduce((max, t) => Math.max(max, t.id), 0) + 1;
+}
+
 export function addTask(tasks, title, { priority = 'medium', tags = [] } = {}) {
   if (!title || !title.trim()) {
     throw new Error('Task title cannot be empty');
@@ -9,7 +14,7 @@ export function addTask(tasks, title, { priority = 'medium', tags = [] } = {}) {
   }
 
   const task = {
-    id: tasks.length + 1,
+    id: nextId(tasks),
     title: title.trim(),
     priority,
     tags,

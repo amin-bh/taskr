@@ -28,6 +28,20 @@ test('removeTask removes the task', () => {
   assert.deepEqual(tasks.map((t) => t.title), ['b']);
 });
 
+test('addTask does not reuse an id after a task is removed', () => {
+  let tasks = addTask(addTask([], 'a'), 'b');
+  tasks = removeTask(tasks, 1);
+  tasks = addTask(tasks, 'c');
+  assert.deepEqual(tasks.map((t) => t.id), [2, 3]);
+});
+
+test('addTask does not mutate the input list', () => {
+  const tasks = addTask([], 'a');
+  const copy = structuredClone(tasks);
+  addTask(tasks, 'b');
+  assert.deepEqual(tasks, copy);
+});
+
 test('listTasks filters by tag and pending state', () => {
   let tasks = addTask([], 'a', { tags: ['work'] });
   tasks = addTask(tasks, 'b', { tags: ['home'] });
