@@ -58,3 +58,10 @@ test('listTasks with several tags keeps only tasks that have all of them', () =>
   assert.deepEqual(listTasks(tasks, { tag: ['work'] }).map((t) => t.title), ['a', 'b']);
   assert.deepEqual(listTasks(tasks, { tag: [] }).map((t) => t.title), ['a', 'b', 'c']);
 });
+
+test('listTasks treats an empty tag as no filter', () => {
+  let tasks = addTask([], 'a', { tags: ['work'] });
+  tasks = addTask(tasks, 'b');
+  assert.deepEqual(listTasks(tasks, { tag: '' }).map((t) => t.title), ['a', 'b']);
+  assert.deepEqual(listTasks(tasks, { tag: ['', 'work'] }).map((t) => t.title), ['a']);
+});

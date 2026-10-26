@@ -38,7 +38,7 @@ export function removeTask(tasks, id) {
 
 // `tag` is a single tag or an array of tags; a task must have all of them to be listed.
 export function listTasks(tasks, { tag, showDone = true } = {}) {
-  const wanted = [tag ?? []].flat();
+  const wanted = [tag ?? []].flat().filter(Boolean);
   return tasks.filter((t) => {
     if (!showDone && t.done) return false;
     if (!wanted.every((w) => t.tags.includes(w))) return false;
