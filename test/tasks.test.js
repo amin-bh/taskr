@@ -49,3 +49,12 @@ test('listTasks filters by tag and pending state', () => {
   assert.deepEqual(listTasks(tasks, { tag: 'work' }).map((t) => t.title), ['a']);
   assert.deepEqual(listTasks(tasks, { showDone: false }).map((t) => t.title), ['b']);
 });
+
+test('listTasks with several tags keeps only tasks that have all of them', () => {
+  let tasks = addTask([], 'a', { tags: ['work', 'urgent'] });
+  tasks = addTask(tasks, 'b', { tags: ['work'] });
+  tasks = addTask(tasks, 'c', { tags: ['urgent'] });
+  assert.deepEqual(listTasks(tasks, { tag: ['work', 'urgent'] }).map((t) => t.title), ['a']);
+  assert.deepEqual(listTasks(tasks, { tag: ['work'] }).map((t) => t.title), ['a', 'b']);
+  assert.deepEqual(listTasks(tasks, { tag: [] }).map((t) => t.title), ['a', 'b', 'c']);
+});

@@ -24,7 +24,7 @@ npm link        # makes the `taskr` command available globally
 | Command | Description |
 | --- | --- |
 | `taskr add <title>` | Add a task. Options: `--priority low\|medium\|high`, `--tag <tag>` (repeatable) |
-| `taskr list` | List tasks. Options: `--tag <tag>`, `--pending`, `--sort` |
+| `taskr list` | List tasks. Options: `--tag <tag>` (repeatable; shows tasks that have all the given tags), `--pending`, `--sort` |
 | `taskr done <id>` | Mark a task as done |
 | `taskr remove <id>` | Delete a task |
 | `taskr help` | Show help |

@@ -46,6 +46,17 @@ test('ids stay unique after a task is removed (#4)', () => {
   assert.deepEqual(read().map((t) => t.id), [2, 3]);
 });
 
+test('list with several --tag options shows tasks that have all of them (#5)', () => {
+  const { run } = setup();
+  run('add', 'both', '--tag', 'work', '--tag', 'urgent');
+  run('add', 'work only', '--tag', 'work');
+  run('add', 'urgent only', '--tag', 'urgent');
+  const res = run('list', '--tag', 'work', '--tag', 'urgent');
+  assert.equal(res.status, 0, res.stderr);
+  assert.match(res.stdout, /both/);
+  assert.doesNotMatch(res.stdout, /work only|urgent only/);
+});
+
 test('done rejects an id that is not a positive integer', () => {
   const { run } = setup();
   run('add', 'a');

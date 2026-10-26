@@ -15,7 +15,7 @@ const HELP = `taskr - a tiny task manager
 
 Usage:
   taskr add <title> [--priority low|medium|high] [--tag <tag>]...
-  taskr list [--tag <tag>] [--pending] [--sort]
+  taskr list [--tag <tag>]... [--pending] [--sort]
   taskr done <id>
   taskr remove <id>
   taskr help
@@ -54,7 +54,7 @@ function main(argv) {
       break;
     }
     case 'list': {
-      let shown = listTasks(tasks, { tag: values.tag?.[0], showDone: !values.pending });
+      let shown = listTasks(tasks, { tag: values.tag, showDone: !values.pending });
       if (values.sort) shown = sortByPriority(shown);
       console.log(formatList(shown));
       break;
