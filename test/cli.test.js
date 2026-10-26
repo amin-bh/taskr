@@ -35,6 +35,17 @@ test('remove deletes a task by id', () => {
   assert.deepEqual(read().map((t) => t.title), ['b']);
 });
 
+test('ids stay unique after a task is removed (#4)', () => {
+  const { run, read } = setup();
+  run('add', 'a');
+  run('add', 'b');
+  run('remove', '1');
+  const res = run('add', 'c');
+  assert.equal(res.status, 0, res.stderr);
+  assert.match(res.stdout, /Added task 3/);
+  assert.deepEqual(read().map((t) => t.id), [2, 3]);
+});
+
 test('done rejects an id that is not a positive integer', () => {
   const { run } = setup();
   run('add', 'a');
